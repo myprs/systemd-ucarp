@@ -1,0 +1,17 @@
+[Unit]
+Description=ucarp Service for Interface %I
+After= network-online.target
+Wants=network-online.target
+Documentation=man:ucarp(8)
+Documentation=https://github.com/myprs/systemd-ucarp
+
+[Service]
+Type=forking
+PrivateTmp=true
+WorkingDirectory=/tmp
+ExecStart=/usr/sbin/systemd-ucarp.sh %I
+RestartSec=1
+Restart=on-failure
+
+[Install]
+RequiredBy=network-online

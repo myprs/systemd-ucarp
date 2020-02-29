@@ -1,0 +1,75 @@
+
+#DEBUG=2
+#CONFDIR="/etc/ucarp"
+#CONFNAME="ucarp.conf"
+#
+#SCRIPTDIR="$CONFDIR/script.d"
+#
+#
+### ucarp parameters
+
+
+
+
+## usually to be set by systemd service file, no need to be set here
+# UCARP_INTERFACE=
+
+## src IP in the interface. 
+## **Needs to be set in the interface's directory!
+# UCARP_SRCIP=""
+
+## VHID for this interface
+## **Needs to be set in the interface's directory!
+# UCARP_VHID=???
+
+## Password for ucarp
+# UCARP_PASSWD=""
+
+## File containing password for ucarp
+# UCARP_PASSFILE=""
+
+## Turn on preemptive failover. This causes an instance of ucarp to assume master status right immediately.
+# UCARP_PREEMPT=0
+
+## Do not run the downscript on startup when the initial state is backup.
+# UCARP_NEUTRAL=0
+
+## carp address, to be setup on Master  
+# UCARP_ADDR=""
+
+## Frequency of carp messages sent
+# UCARP_ADVBASE=1
+
+## Skew: if one node is fored to be slave increase Skew value
+# UCARP_ADVSKEW=0
+
+## Up script to be called
+# UCARP_UPSCRIPT=$SCRIPTDIR/vip-up"
+
+## Down script
+# UCARP_DOWNSCRIPT="$SCRIPTDIR/vip-down"
+
+## Ratio used by the backup to determine how long to wait for an unresponsive master before considering it dead.
+# UCARP_DEADRATIO=3
+
+## Use of this command causes the command specified by the -d argument to be invoked when ucarp shuts down.
+# UCARP_SHUTDOWN=0
+
+## Causes ucarp to detach from the terminal and run in the background as a daemon.
+# UCARP_DAEMONIZE=0
+
+## Set the syslog facility, defaults to daemon.
+# UCARP_FACILITY="daemon"
+
+## Specify an extra parameter to be supplied to the up/down scripts.
+# UCARP_XPARAM=""
+
+## Ignore unplugged network cables. This option is useful when ucarp nodes are connected with a crossover cable. Without this option the master will transition to backup when the other node is powered down, as it no longer has a link (NO-CARRIER).
+# UCARP_IGNOREIFSTATE=0
+
+## Use broadcast instead of multicast advertisements.
+# UCARP_NOMCAST=0
+
+## tobedone
+# Comma separated list of additional IPs to bring up on carp master
+# SECONDARY_IPS=""

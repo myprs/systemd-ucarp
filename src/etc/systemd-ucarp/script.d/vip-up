@@ -1,0 +1,52 @@
+#!/bin/sh -m
+
+# script call is: /etc/ucarp/script.d/vip-up eth0 192.168.1.50 [ADDIPLIST]
+# 
+# ADDIPLIST: comma separated list of additional IP adresses that will be addes to the interface
+#   e.g: /etc/ucarp/script.d/vip-up eth0 192.168.1.50 "192.168.1.51,192.168.1.53,192.168.1.55" 
+#
+# We do need arping from iputils package to send gratious arp to inform switches about location of the new IP address!
+
+. /etc/ucarp/script.d/scripthelpers.inc
+
+
+#get netmask
+NETMASK="`getnetmask $1`"
+
+# set VIP
+$BIN_IP address add $2/$NETMASK label $1:uc dev $1
+
+# send gratious arp for VIP in background
+$BIN_ARPING -q -A -s $2 -I $1 -c 3 $2 &
+
+
+# handling of additional ip addresses
+
+if [ -n "$3" ] ;
+then
+	# we do have a list of additional ip addresses
+
+	OLD_IFS="$IFS"
+
+	IFS=","
+
+	for ADDIP in "$3" 
+	do
+		# set IP
+		$NIM_IP address add $ADDIP/$NETMASK label $1:UC dev $1
+
+		# send gratious ARP, backgrouded
+		$BIN_ARPING -q -A -s $ADDIP -I $1 -c 3 $ADDIP &
+	done
+
+	IFS="$OLD_IFS"
+
+fi
+
+
+
+# wait for all background jobs to finish
+wait
+
+
+
